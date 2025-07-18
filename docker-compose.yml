@@ -1,7 +1,7 @@
 services:
   web:
-    image: nginx:latest
+    image: httpd:latest
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./html:/usr/local/apache2/htdocs/
     ports:
-      - "8000:80"
+      - "8081:80"
