@@ -50,7 +50,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    font-size: 12px;
+    font-size: 14px;
     background: white;
     border-radius: 10px;
     overflow: hidden;
@@ -60,13 +60,13 @@ body {
 
 /* Card base styles */
 .card {
-    padding: 8px;
+    padding: 12px;
     text-align: center;
     border: 2px solid #e0e0e0;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    height: 60px;
+    height: 80px;
     width: 100%;
     display: table-cell;
     vertical-align: middle;
@@ -84,11 +84,11 @@ body {
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: default;
-    height: 50px;
+    height: 65px;
 }
 
 .topic-card:hover {
@@ -120,7 +120,7 @@ body {
 
 .points-span {
     display: block;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
 }
 
@@ -159,8 +159,8 @@ body {
 .question-span {
     display: block;
     font-weight: bold;
-    font-size: 9px;
-    margin-bottom: 2px;
+    font-size: 11px;
+    margin-bottom: 3px;
     line-height: 1.1;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -169,8 +169,8 @@ body {
 .answer-span {
     display: block;
     font-style: italic;
-    font-size: 8px;
-    margin-bottom: 3px;
+    font-size: 10px;
+    margin-bottom: 4px;
     color: #2d3436;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -178,15 +178,15 @@ body {
 
 /* Check buttons */
 .check-button {
-    padding: 2px 6px;
-    margin: 1px;
+    padding: 4px 8px;
+    margin: 2px;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     transition: all 0.2s ease;
-    min-width: 20px;
+    min-width: 25px;
 }
 
 .check-button-right {

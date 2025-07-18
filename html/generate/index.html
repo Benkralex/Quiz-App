@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generator</title>
+</head>
+<body>
+    <h1>Welcome to the Quiz Generator</h1>
+    <p>Create your own quizzes easily and quickly!</p>
+    <form id="quiz-form">
+        <div id="teams">
+            <input type="text" id="green-team" name="green-team" placeholder="Green Team Name"><br>
+            <input type="text" id="red-team" name="red-team" placeholder="Red Team Name"><br>
+            <input type="text" id="blue-team" name="blue-team" placeholder="Blue Team Name"><br>
+            <input type="text" id="yellow-team" name="yellow-team" placeholder="Yellow Team Name"><br>
+
+            <button type="button" onclick="next()">Next</button>
+        </div>
+        <div id="questions" style="display:none;">
+            <div id="question-container" style="display: flex"></div>
+            <input type="text" id="new-topic" name="new-topic" placeholder="New Topic">
+            <button type="button" onclick="addTopic()">Add Topic</button><br>
+            <button type="button" onclick="back()">Back</button><br>
+            <button type="button" onclick="generateQuiz()">Generate Quiz</button>
+        </div>
+    </form>
+    <script src="../data-classes.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
