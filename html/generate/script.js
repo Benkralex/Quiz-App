@@ -20,11 +20,12 @@ function generateQuiz() {
         console.log("Teams:", globalThis.teams);
         console.log("Questions:", globalThis.questions);
         // Redirect to ../game?teams=...&questions=...
-        const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}`).join(','));
+        const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}:${t.color}`).join(','));
         const questionsParam = encodeURIComponent(globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(','));
         const port = window.location.port ? `:${window.location.port}` : '';
         const host = window.location.hostname;
-        window.location.href = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
+        document.getElementById('output').value = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
+        //window.location.href = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
     }
 }
 
@@ -82,8 +83,8 @@ function checkTeams() {
 }
 
 function checkTopics() {
+    globalThis.questions = [];
     for (const topic of topicsList) {
-        globalThis.questions = [];
         for (let i = 1; i <= 5; i++) {
             const questionInput = document.getElementById(`question-${topic}-${i}`);
             const answerInput = document.getElementById(`answer-${topic}-${i}`);
