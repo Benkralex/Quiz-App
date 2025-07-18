@@ -91,21 +91,6 @@ quiz/
 
 ## 🛠️ Development
 
-### Local Development
-If you prefer to run without Docker:
-
-1. Serve the `html/` directory using any web server:
-   ```bash
-   # Using Python's built-in server
-   cd html
-   python3 -m http.server 8081
-   
-   # Or using Node.js
-   npx serve html -p 8081
-   ```
-
-2. Access the application at `http://localhost:8081`
-
 ### Customization
 - **Questions:** Modify `html/game/data.js` to add or change quiz questions
 - **Styling:** Update CSS files to customize the appearance
