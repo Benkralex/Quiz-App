@@ -74,9 +74,16 @@ if (teamsParam) {
         const parsedTeams = JSON.parse(decodeURIComponent(teamsParam));
         teams.length = 0;
         parsedTeams.forEach(t => {
-            teams.push(new Team(t.id, t.name, t.color));
+            const team = new Team(t.id, t.name, t.color);
+            // Preserve the score if it exists in the JSON
+            if (t.score !== undefined) {
+                team.score = t.score;
+            }
+            teams.push(team);
         });
+        console.log("Successfully parsed teams from JSON:", teams);
     } catch (e) {
+        console.error("Failed to parse teams JSON, falling back to old format:", e);
         // Fallback to old format for backwards compatibility
         teams.length = 0;
         decodeURIComponent(teamsParam).split(',').forEach(t => {
@@ -93,9 +100,16 @@ if (questionsParam) {
         const parsedQuestions = JSON.parse(decodeURIComponent(questionsParam));
         questions.length = 0;
         parsedQuestions.forEach(q => {
-            questions.push(new Question(q.id, q.question, q.answer, q.topic, q.dificulty));
+            const question = new Question(q.id, q.question, q.answer, q.topic, q.dificulty);
+            // Preserve the state if it exists in the JSON
+            if (q.state !== undefined) {
+                question.state = q.state;
+            }
+            questions.push(question);
         });
+        console.log("Successfully parsed questions from JSON:", questions);
     } catch (e) {
+        console.error("Failed to parse questions JSON, falling back to old format:", e);
         // Fallback to old format for backwards compatibility
         questions.length = 0;
         decodeURIComponent(questionsParam).split(',').forEach(q => {
@@ -106,7 +120,7 @@ if (questionsParam) {
 }
 
 
-var active_team = teams[0].id;
+var active_team = teams.length > 0 ? teams[0].id : 0;
 
 
 console.log("Teams:", teams);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test URL Decoding</title>
+</head>
+<body>
+    <h1>URL Decoding Test</h1>
+    <div id="output"></div>
+    
+    <script src="html/data-classes.js"></script>
+    <script>
+        // Test the URL decoding
+        const testURL = "https://quiz.benkralex.de/game/?teams=%5B%7B%22id%22%3A0%2C%22name%22%3A%22Team%201%22%2C%22color%22%3A%22green%22%2C%22score%22%3A0%7D%2C%7B%22id%22%3A1%2C%22name%22%3A%22Team%202%22%2C%22color%22%3A%22red%22%2C%22score%22%3A0%7D%5D&questions=%5B%7B%22id%22%3A1%2C%22question%22%3A%22In%20welchem%20Jahr%20fiel%20die%20Berliner%20Mauer%3F%22%2C%22answer%22%3A%221989%22%2C%22topic%22%3A%22%F0%9F%93%9C%20Geschichte%22%2C%22dificulty%22%3A1%2C%22state%22%3A%22idle%22%7D%2C%7B%22id%22%3A2%2C%22question%22%3A%22Wer%20war%20der%20erste%20Bundeskanzler%20der%20Bundesrepublik%20Deutschland%3F%22%2C%22answer%22%3A%22Konrad%20Adenauer%22%2C%22topic%22%3A%22%F0%9F%93%9C%20Geschichte%22%2C%22dificulty%22%3A2%2C%22state%22%3A%22idle%22%7D%2C%7B%22id%22%3A3%2C%22question%22%3A%22In%20welchem%20Jahrhundert%20fand%20die%20Franz%C3%B6sische%20Revolution%20statt%3F%22%2C%22answer%22%3A%2218.%20Jahrhundert%22%2C%22topic%22%3A%22%F0%9F%93%9C%20Geschichte%22%2C%22dificulty%22%3A3%2C%22state%22%3A%22idle%22%7D%2C%7B%22id%22%3A4%2C%22question%22%3A%22Welche%20L%C3%A4nder%20waren%20die%20Achsenm%C3%A4chte%20im%20Zweiten%20Weltkrieg%3F%22%2C%22answer%22%3A%22Deutschland%2C%20Italien%2C%20Japan%22%2C%22topic%22%3A%22%F0%9F%93%9C%20Geschichte%22%2C%22dificulty%22%3A4%2C%22state%22%3A%22idle%22%7D%2C%7B%22id%22%3A5%2C%22question%22%3A%22Wie%20hie%C3%9F%20der%20Vertrag%2C%20der%201648%20den%20Drei%C3%9Figj%C3%A4hrigen%20Krieg%20beendete%3F%22%2C%22answer%22%3A%22Westf%C3%A4lischer%20Friede%22%2C%22topic%22%3A%22%F0%9F%93%9C%20Geschichte%22%2C%22dificulty%22%3A5%2C%22state%22%3A%22idle%22%7D%5D";
+        
+        const url = new URL(testURL);
+        const params = new URLSearchParams(url.search);
+        
+        const teamsParam = params.get('teams');
+        const questionsParam = params.get('questions');
+        
+        const output = document.getElementById('output');
+        
+        try {
+            // Test teams decoding
+            console.log('Raw teams param:', teamsParam);
+            const decodedTeams = decodeURIComponent(teamsParam);
+            console.log('Decoded teams string:', decodedTeams);
+            const parsedTeams = JSON.parse(decodedTeams);
+            console.log('Parsed teams:', parsedTeams);
+            
+            // Test questions decoding
+            console.log('Raw questions param:', questionsParam);
+            const decodedQuestions = decodeURIComponent(questionsParam);
+            console.log('Decoded questions string:', decodedQuestions);
+            const parsedQuestions = JSON.parse(decodedQuestions);
+            console.log('Parsed questions:', parsedQuestions);
+            
+            output.innerHTML = `
+                <h2>✅ Decoding successful!</h2>
+                <h3>Teams (${parsedTeams.length}):</h3>
+                <pre>${JSON.stringify(parsedTeams, null, 2)}</pre>
+                <h3>Questions (${parsedQuestions.length}):</h3>
+                <pre>${JSON.stringify(parsedQuestions, null, 2)}</pre>
+            `;
+            
+        } catch (e) {
+            output.innerHTML = `<h2>❌ Decoding failed!</h2><p>Error: ${e.message}</p>`;
+            console.error('Decoding error:', e);
+        }
+    </script>
+</body>
+</html>
