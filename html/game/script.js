@@ -1,6 +1,49 @@
 document.addEventListener("DOMContentLoaded", function() {
-    generateTable();
-    generateTeamList();
+    // Check if questions are available
+    if (globalThis.questions && globalThis.questions.length > 0) {
+        // Questions are loaded, show team setup
+        document.getElementById('team-setup').style.display = 'block';
+        document.getElementById('game-view').style.display = 'none';
+    } else {
+        // No questions available, show error or redirect
+        alert('No questions available. Please generate a quiz first.');
+        window.location.href = '../generate/';
+    }
+});
+
+function startGame() {
+    // Validate teams
+    const greenTeam = document.getElementById('green-team').value.trim();
+    const redTeam = document.getElementById('red-team').value.trim();
+    const blueTeam = document.getElementById('blue-team').value.trim();
+    const yellowTeam = document.getElementById('yellow-team').value.trim();
+    
+    globalThis.teams = [];
+    if (greenTeam) globalThis.teams.push(new Team(0, greenTeam, 'green'));
+    if (redTeam) globalThis.teams.push(new Team(1, redTeam, 'red'));
+    if (blueTeam) globalThis.teams.push(new Team(2, blueTeam, 'blue'));
+    if (yellowTeam) globalThis.teams.push(new Team(3, yellowTeam, 'yellow'));
+    
+    if (globalThis.teams.length >= 2) {
+        globalThis.active_team = globalThis.teams[0].id;
+        
+        // Hide team setup and show game
+        document.getElementById('team-setup').style.display = 'none';
+        document.getElementById('game-view').style.display = 'block';
+        
+        // Initialize game
+        generateTable();
+        generateTeamList();
+    } else {
+        alert('Please enter at least 2 team names to start the game.');
+    }
+}
+
+// Allow Enter key to start the game
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter' && document.getElementById('team-setup').style.display !== 'none') {
+        startGame();
+    }
 });
 
 function questionClick(element, event) {

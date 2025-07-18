@@ -11,15 +11,7 @@
     <h1>Welcome to the Quiz Generator</h1>
     <p>Create your own quizzes easily and quickly!</p>
     <form id="quiz-form">
-        <div id="teams">
-            <h2>Team Setup</h2>
-            <input type="text" id="green-team" name="green-team" placeholder="🟢 Green Team Name">
-            <input type="text" id="red-team" name="red-team" placeholder="🔴 Red Team Name">
-            <input type="text" id="blue-team" name="blue-team" placeholder="🔵 Blue Team Name">
-            <input type="text" id="yellow-team" name="yellow-team" placeholder="🟡 Yellow Team Name">
-            <button type="button" onclick="next()">Next: Create Questions</button>
-        </div>
-        <div id="questions" style="display:none;">
+        <div id="questions">
             <h2>Question Setup</h2>
             <input type="text" id="new-topic" name="new-topic" placeholder="📝 Enter a new topic (e.g., Science, History, Sports)">
             <button type="button" onclick="addTopic()">Add Topic</button>
@@ -27,7 +19,6 @@
             <div id="question-container"></div>
             
             <div class="action-buttons">
-                <button type="button" onclick="back()">← Back to Teams</button>
                 <button type="button" onclick="generateQuiz()">🎯 Generate Quiz</button>
                 <input type="text" id="output" name="output" placeholder="Generated quiz URL will appear here..." readonly>
             </div>

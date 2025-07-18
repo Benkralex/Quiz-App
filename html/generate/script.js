@@ -1,33 +1,15 @@
 var topicsList = [];
-var teamsList = [];
 var questions = [];
+
+document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(() => {
+        document.getElementById('new-topic').focus();
+    }, 100);
+});
 
 function addClickAnimation(button) {
     button.classList.add('clicked');
     setTimeout(() => button.classList.remove('clicked'), 200);
-}
-
-function back() {
-    const button = event.target;
-    addClickAnimation(button);
-    
-    document.getElementById('questions').style.display='none';
-    document.getElementById('teams').style.display='block';
-}
-
-function next() {
-    const button = event.target;
-    addClickAnimation(button);
-    
-    if (checkTeams()) {
-        document.getElementById('questions').style.display='block';
-        document.getElementById('teams').style.display='none';
-        setTimeout(() => {
-            document.getElementById('new-topic').focus();
-        }, 100);
-    } else {
-        alert('Please enter at least 2 team names to continue.');
-    }
 }
 
 function generateQuiz() {
@@ -36,19 +18,17 @@ function generateQuiz() {
     
     if (checkTopics()) {
         console.log("Generating quiz...");
-        console.log("Teams:", globalThis.teams);
         console.log("Questions:", globalThis.questions);
         
         button.disabled = true;
         button.textContent = 'Generating...';
         
         setTimeout(() => {
-            // Use JSON encoding instead of delimiter-based approach to handle special characters
-            const teamsParam = encodeURIComponent(JSON.stringify(globalThis.teams));
+            // Generate URL with only questions
             const questionsParam = encodeURIComponent(JSON.stringify(globalThis.questions));
             const port = window.location.port ? `:${window.location.port}` : '';
             const host = window.location.hostname;
-            const url = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
+            const url = `http://${host}${port}/html/game?questions=${questionsParam}`;
             
             document.getElementById('output').value = url;
             button.disabled = false;
@@ -119,19 +99,6 @@ function removeTopic(topic) {
     }
 }
 
-function checkTeams() {
-    const greenTeam = document.getElementById('green-team').value.trim();
-    const redTeam = document.getElementById('red-team').value.trim();
-    const blueTeam = document.getElementById('blue-team').value.trim();
-    const yellowTeam = document.getElementById('yellow-team').value.trim();
-    globalThis.teams = [];
-    if (greenTeam) globalThis.teams.push(new Team(0, greenTeam, 'green'));
-    if (redTeam) globalThis.teams.push(new Team(1, redTeam, 'red'));
-    if (blueTeam) globalThis.teams.push(new Team(2, blueTeam, 'blue'));
-    if (yellowTeam) globalThis.teams.push(new Team(3, yellowTeam, 'yellow'));
-    return globalThis.teams.length >= 2;
-}
-
 function checkTopics() {
     globalThis.questions = [];
     for (const topic of topicsList) {
@@ -157,3 +124,11 @@ function checkTopics() {
     }
     return globalThis.questions.length >= 2;
 }
+
+// Allow Enter key to add topics
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter' && event.target.id === 'new-topic') {
+        event.preventDefault();
+        addTopic();
+    }
+});

@@ -8,7 +8,19 @@
     <link rel="icon" href="../favicon.png" type="image/png">
 </head>
 <body>
-    <div class="game-container">
+    <div id="team-setup" class="setup-container">
+        <h1>Team Setup</h1>
+        <p>Set up your teams before starting the quiz!</p>
+        <div class="team-inputs">
+            <input type="text" id="green-team" name="green-team" placeholder="🟢 Green Team Name">
+            <input type="text" id="red-team" name="red-team" placeholder="🔴 Red Team Name">
+            <input type="text" id="blue-team" name="blue-team" placeholder="🔵 Blue Team Name">
+            <input type="text" id="yellow-team" name="yellow-team" placeholder="🟡 Yellow Team Name">
+        </div>
+        <button onclick="startGame()" class="start-button">🎯 Start Quiz</button>
+    </div>
+
+    <div id="game-view" class="game-container" style="display: none;">
         <h1 class="game-title">Quiz Game</h1>
         <table id="question_table"></table>
         <h2 class="teams-title">Teams</h2>

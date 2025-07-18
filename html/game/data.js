@@ -49,51 +49,16 @@ var questions = [
     */
 ]
 
-var teams = [
-    /*
+// Teams will be set up in the game UI
+var teams = [];
 
-    // Example layout for teams
-
-    new Team(0, "Team A", "red"),
-    new Team(1, "Team B", "blue"),
-    new Team(2, "Team C", "green"),
-    new Team(3, "Team D", "yellow"),
-    */
-];
-
-// Parse URL parameters for teams and questions
+// Parse URL parameters for questions only
 function getParam(name) {
     const params = new URLSearchParams(window.location.search);
     return params.get(name);
 }
 
-// Parse teams
-const teamsParam = getParam('teams');
-if (teamsParam) {
-    try {
-        const parsedTeams = JSON.parse(decodeURIComponent(teamsParam));
-        teams.length = 0;
-        parsedTeams.forEach(t => {
-            const team = new Team(t.id, t.name, t.color);
-            // Preserve the score if it exists in the JSON
-            if (t.score !== undefined) {
-                team.score = t.score;
-            }
-            teams.push(team);
-        });
-        console.log("Successfully parsed teams from JSON:", teams);
-    } catch (e) {
-        console.error("Failed to parse teams JSON, falling back to old format:", e);
-        // Fallback to old format for backwards compatibility
-        teams.length = 0;
-        decodeURIComponent(teamsParam).split(',').forEach(t => {
-            const [id, name, color] = t.split(':');
-            teams.push(new Team(Number(id), name, color));
-        });
-    }
-}
-
-// Parse questions
+// Parse questions from URL
 const questionsParam = getParam('questions');
 if (questionsParam) {
     try {
@@ -109,19 +74,12 @@ if (questionsParam) {
         });
         console.log("Successfully parsed questions from JSON:", questions);
     } catch (e) {
-        console.error("Failed to parse questions JSON, falling back to old format:", e);
-        // Fallback to old format for backwards compatibility
-        questions.length = 0;
-        decodeURIComponent(questionsParam).split(',').forEach(q => {
-            const [id, question, answer, topic, dificulty] = q.split(':');
-            questions.push(new Question(Number(id), question, answer, topic, Number(dificulty)));
-        });
+        console.error("Failed to parse questions JSON:", e);
     }
 }
 
+// Active team will be set when game starts
+var active_team = 0;
 
-var active_team = teams.length > 0 ? teams[0].id : 0;
-
-
-console.log("Teams:", teams);
+console.log("Questions loaded:", questions.length);
 console.log("Questions:", questions);
