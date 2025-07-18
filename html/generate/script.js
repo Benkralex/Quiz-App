@@ -20,9 +20,11 @@ function generateQuiz() {
         console.log("Teams:", globalThis.teams);
         console.log("Questions:", globalThis.questions);
         // Redirect to ../game?teams=...&questions=...
-        const teamsParam = globalThis.teams.map(t => `${t.id}:${t.name}`).join(',');
-        const questionsParam = globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(',');
-        window.location.href = `../game?teams=${teamsParam}&questions=${questionsParam}`;
+        const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}`).join(','));
+        const questionsParam = encodeURIComponent(globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(','));
+        const port = window.location.port ? `:${window.location.port}` : '';
+        const host = window.location.hostname;
+        window.location.href = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
     }
 }
 
