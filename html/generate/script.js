@@ -20,6 +20,11 @@ function generateQuiz(button) {
         
         setTimeout(() => {
             // Use JSON encoding instead of delimiter-based approach to handle special characters
+            globalThis.questions.forEach(q => {
+                q.question = q.question.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+                q.answer = q.answer.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+                q.topic = q.topic.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            });
             const questionsParam = encodeURIComponent(JSON.stringify(globalThis.questions));
             const port = window.location.port ? `:${window.location.port}` : '';
             const host = window.location.hostname;
