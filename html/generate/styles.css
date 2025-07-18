@@ -155,11 +155,6 @@ button[onclick="addTopic()"]:hover {
     transform: translateY(-2px);
 }
 
-/* Questions Section */
-#questions {
-    display: none;
-}
-
 #questions h2 {
     color: #2d3436;
     font-size: 20px;
