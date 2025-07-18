@@ -1,31 +1,40 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Check if questions are available
-    if (globalThis.questions && globalThis.questions.length > 0) {
-        // Questions are loaded, show team setup
-        document.getElementById('team-setup').style.display = 'block';
-        document.getElementById('game-view').style.display = 'none';
-    } else {
-        // No questions available, show error or redirect
-        alert('No questions available. Please generate a quiz first.');
-        window.location.href = '../generate/';
-    }
+    // Wait a bit for data.js to load and parse URL parameters
+    setTimeout(() => {
+        // Check if questions are available
+        if (window.questions && window.questions.length > 0) {
+            // Questions are loaded, show team setup
+            document.getElementById('team-setup').style.display = 'block';
+            document.getElementById('game-view').style.display = 'none';
+            console.log("Questions loaded:", window.questions.length, "questions");
+        } else {
+            // No questions available, show error or redirect
+            alert('No questions available. Please generate a quiz first.');
+            console.log("No questions found. Current questions:", window.questions);
+            window.location.href = '../generate/';
+        }
+    }, 100);
 });
 
 function startGame() {
+    console.log("startGame called");
     // Validate teams
     const greenTeam = document.getElementById('green-team').value.trim();
     const redTeam = document.getElementById('red-team').value.trim();
     const blueTeam = document.getElementById('blue-team').value.trim();
     const yellowTeam = document.getElementById('yellow-team').value.trim();
     
-    globalThis.teams = [];
-    if (greenTeam) globalThis.teams.push(new Team(0, greenTeam, 'green'));
-    if (redTeam) globalThis.teams.push(new Team(1, redTeam, 'red'));
-    if (blueTeam) globalThis.teams.push(new Team(2, blueTeam, 'blue'));
-    if (yellowTeam) globalThis.teams.push(new Team(3, yellowTeam, 'yellow'));
+    // Use window instead of globalThis for better compatibility
+    window.teams = [];
+    if (greenTeam) window.teams.push(new Team(0, greenTeam, 'green'));
+    if (redTeam) window.teams.push(new Team(1, redTeam, 'red'));
+    if (blueTeam) window.teams.push(new Team(2, blueTeam, 'blue'));
+    if (yellowTeam) window.teams.push(new Team(3, yellowTeam, 'yellow'));
     
-    if (globalThis.teams.length >= 2) {
-        globalThis.active_team = globalThis.teams[0].id;
+    console.log("Teams created:", window.teams);
+    
+    if (window.teams.length >= 2) {
+        window.active_team = window.teams[0].id;
         
         // Hide team setup and show game
         document.getElementById('team-setup').style.display = 'none';
@@ -34,6 +43,8 @@ function startGame() {
         // Initialize game
         generateTable();
         generateTeamList();
+        
+        console.log("Game started successfully");
     } else {
         alert('Please enter at least 2 team names to start the game.');
     }
@@ -47,20 +58,20 @@ document.addEventListener('keypress', function(event) {
 });
 
 function questionClick(element, event) {
-    const questions = globalThis.questions;
+    const questions = window.questions;
     var questionId = element.getAttribute("data-questionid");
     var question = questions.find(q => q.id == questionId);
     var questionActive = questions.find(q => q.state === "active" || q.state === "check");
     if (question) {
         if (question.state === "check") {
             if (event === 'r') {
-                globalThis.teams.find(t => t.id === globalThis.active_team).score += question.dificulty * 100;
+                window.teams.find(t => t.id === window.active_team).score += question.dificulty * 100;
             } else if (event === 'w') {
                 // Do nothing on wrong answer
             } else {
                 return;
             }
-            globalThis.active_team = (globalThis.active_team + 1) % globalThis.teams.length;
+            window.active_team = (window.active_team + 1) % window.teams.length;
             question.state = "used";
         } else if (question.state === "active") {
             question.state = "check";
@@ -96,7 +107,7 @@ function questionElement(question) {
 }
 
 function generateTable() {
-    const questions = globalThis.questions;
+    const questions = window.questions;
     const table = document.getElementById("question_table");
     topics = [...new Set(questions.map(q => q.topic))];
     topics.sort();
@@ -115,12 +126,12 @@ function generateTable() {
 }
 
 function generateTeamList() {
-    const teams = globalThis.teams;
+    const teams = window.teams;
     const list = document.getElementById("teams");
     teams.sort((a, b) => b.score - a.score);
     list.innerHTML = "";
     teams.forEach(t => {
-        const activeIndicator = t.id == active_team ? '<span class="active-dot">● </span>' : '';
-        list.innerHTML += `<li class="team team-${t.color} ${t.id == active_team ? 'team-active' : ''}">${activeIndicator}${t.name} <span class="team-score">${t.score} pts</span></li>`;
+        const activeIndicator = t.id == window.active_team ? '<span class="active-dot">● </span>' : '';
+        list.innerHTML += `<li class="team team-${t.color} ${t.id == window.active_team ? 'team-active' : ''}">${activeIndicator}${t.name} <span class="team-score">${t.score} pts</span></li>`;
     });
 }

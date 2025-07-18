@@ -78,8 +78,10 @@ if (questionsParam) {
     }
 }
 
-// Active team will be set when game starts
-var active_team = 0;
+// Make questions and teams available globally
+window.questions = questions;
+window.teams = teams;
+window.active_team = 0;
 
 console.log("Questions loaded:", questions.length);
 console.log("Questions:", questions);
