@@ -70,21 +70,39 @@ function getParam(name) {
 // Parse teams
 const teamsParam = getParam('teams');
 if (teamsParam) {
-    teams.length = 0;
-    decodeURIComponent(teamsParam).split(',').forEach(t => {
-        const [id, name, color] = t.split(':');
-        teams.push(new Team(Number(id), name, color));
-    });
+    try {
+        const parsedTeams = JSON.parse(decodeURIComponent(teamsParam));
+        teams.length = 0;
+        parsedTeams.forEach(t => {
+            teams.push(new Team(t.id, t.name, t.color));
+        });
+    } catch (e) {
+        // Fallback to old format for backwards compatibility
+        teams.length = 0;
+        decodeURIComponent(teamsParam).split(',').forEach(t => {
+            const [id, name, color] = t.split(':');
+            teams.push(new Team(Number(id), name, color));
+        });
+    }
 }
 
 // Parse questions
 const questionsParam = getParam('questions');
 if (questionsParam) {
-    questions.length = 0;
-    decodeURIComponent(questionsParam).split(',').forEach(q => {
-        const [id, question, answer, topic, dificulty] = q.split(':');
-        questions.push(new Question(Number(id), question, answer, topic, Number(dificulty)));
-    });
+    try {
+        const parsedQuestions = JSON.parse(decodeURIComponent(questionsParam));
+        questions.length = 0;
+        parsedQuestions.forEach(q => {
+            questions.push(new Question(q.id, q.question, q.answer, q.topic, q.dificulty));
+        });
+    } catch (e) {
+        // Fallback to old format for backwards compatibility
+        questions.length = 0;
+        decodeURIComponent(questionsParam).split(',').forEach(q => {
+            const [id, question, answer, topic, dificulty] = q.split(':');
+            questions.push(new Question(Number(id), question, answer, topic, Number(dificulty)));
+        });
+    }
 }
 
 

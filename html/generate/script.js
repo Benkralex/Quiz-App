@@ -43,8 +43,9 @@ function generateQuiz() {
         button.textContent = 'Generating...';
         
         setTimeout(() => {
-            const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}:${t.color}`).join(','));
-            const questionsParam = encodeURIComponent(globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(','));
+            // Use JSON encoding instead of delimiter-based approach to handle special characters
+            const teamsParam = encodeURIComponent(JSON.stringify(globalThis.teams));
+            const questionsParam = encodeURIComponent(JSON.stringify(globalThis.questions));
             const port = window.location.port ? `:${window.location.port}` : '';
             const host = window.location.hostname;
             const url = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
