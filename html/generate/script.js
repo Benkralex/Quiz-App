@@ -1,34 +1,29 @@
 var topicsList = [];
+var teamsList = [];
 var questions = [];
-
-document.addEventListener("DOMContentLoaded", function() {
-    setTimeout(() => {
-        document.getElementById('new-topic').focus();
-    }, 100);
-});
 
 function addClickAnimation(button) {
     button.classList.add('clicked');
     setTimeout(() => button.classList.remove('clicked'), 200);
 }
 
-function generateQuiz() {
-    const button = event.target;
+function generateQuiz(button) {
     addClickAnimation(button);
     
     if (checkTopics()) {
         console.log("Generating quiz...");
+        console.log("Teams:", globalThis.teams);
         console.log("Questions:", globalThis.questions);
         
         button.disabled = true;
         button.textContent = 'Generating...';
         
         setTimeout(() => {
-            // Generate URL with only questions
+            // Use JSON encoding instead of delimiter-based approach to handle special characters
             const questionsParam = encodeURIComponent(JSON.stringify(globalThis.questions));
             const port = window.location.port ? `:${window.location.port}` : '';
             const host = window.location.hostname;
-            const url = `http://${host}${port}/html/game?questions=${questionsParam}`;
+            const url = `http://${host}${port}/game?questions=${questionsParam}`;
             
             document.getElementById('output').value = url;
             button.disabled = false;
@@ -124,11 +119,3 @@ function checkTopics() {
     }
     return globalThis.questions.length >= 2;
 }
-
-// Allow Enter key to add topics
-document.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter' && event.target.id === 'new-topic') {
-        event.preventDefault();
-        addTopic();
-    }
-});
