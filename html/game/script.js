@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", function() {
 function startGame() {
     console.log("startGame called");
     // Validate teams
-    const greenTeam = document.getElementById('green-team').value.trim();
-    const redTeam = document.getElementById('red-team').value.trim();
-    const blueTeam = document.getElementById('blue-team').value.trim();
-    const yellowTeam = document.getElementById('yellow-team').value.trim();
-    
+    const greenTeam = document.getElementById('green-team').value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    const redTeam = document.getElementById('red-team').value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    const blueTeam = document.getElementById('blue-team').value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    const yellowTeam = document.getElementById('yellow-team').value.trim().replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
     // Use window instead of globalThis for better compatibility
     window.teams = [];
     if (greenTeam) window.teams.push(new Team(0, greenTeam, 'green'));
