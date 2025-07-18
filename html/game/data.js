@@ -65,7 +65,7 @@ if (questionsParam) {
         const parsedQuestions = JSON.parse(decodeURIComponent(questionsParam));
         questions.length = 0;
         parsedQuestions.forEach(q => {
-            const question = new Question(q.id, q.question, q.answer, q.topic, q.dificulty);
+            const question = new Question(q.id, q.question.replaceAll("<", "&lt;").replaceAll(">", "&gt;"), q.answer.replaceAll("<", "&lt;").replaceAll(">", "&gt;"), q.topic.replaceAll("<", "&lt;").replaceAll(">", "&gt;"), q.dificulty);
             // Preserve the state if it exists in the JSON
             if (q.state !== undefined) {
                 question.state = q.state;
