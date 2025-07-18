@@ -2,34 +2,69 @@ var topicsList = [];
 var teamsList = [];
 var questions = [];
 
+function addClickAnimation(button) {
+    button.classList.add('clicked');
+    setTimeout(() => button.classList.remove('clicked'), 200);
+}
+
 function back() {
+    const button = event.target;
+    addClickAnimation(button);
+    
     document.getElementById('questions').style.display='none';
     document.getElementById('teams').style.display='block';
 }
 
 function next() {
+    const button = event.target;
+    addClickAnimation(button);
+    
     if (checkTeams()) {
         document.getElementById('questions').style.display='block';
         document.getElementById('teams').style.display='none';
+        setTimeout(() => {
+            document.getElementById('new-topic').focus();
+        }, 100);
+    } else {
+        alert('Please enter at least 2 team names to continue.');
     }
 }
 
 function generateQuiz() {
+    const button = event.target;
+    addClickAnimation(button);
+    
     if (checkTopics()) {
         console.log("Generating quiz...");
         console.log("Teams:", globalThis.teams);
         console.log("Questions:", globalThis.questions);
-        // Redirect to ../game?teams=...&questions=...
-        const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}:${t.color}`).join(','));
-        const questionsParam = encodeURIComponent(globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(','));
-        const port = window.location.port ? `:${window.location.port}` : '';
-        const host = window.location.hostname;
-        document.getElementById('output').value = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
-        //window.location.href = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
+        
+        button.disabled = true;
+        button.textContent = 'Generating...';
+        
+        setTimeout(() => {
+            const teamsParam = encodeURIComponent(globalThis.teams.map(t => `${t.id}:${t.name}:${t.color}`).join(','));
+            const questionsParam = encodeURIComponent(globalThis.questions.map(q => `${q.id}:${q.question}:${q.answer}:${q.topic}:${q.dificulty}`).join(','));
+            const port = window.location.port ? `:${window.location.port}` : '';
+            const host = window.location.hostname;
+            const url = `http://${host}${port}/game?teams=${teamsParam}&questions=${questionsParam}`;
+            
+            document.getElementById('output').value = url;
+            button.disabled = false;
+            button.textContent = '🎯 Generate Quiz';
+            
+            document.getElementById('output').select();
+            document.getElementById('output').setSelectionRange(0, 99999);
+        }, 500);
+    } else {
+        alert('Please fill in all questions and answers for each topic.');
     }
 }
 
 function addTopic() {
+    const button = event.target;
+    addClickAnimation(button);
+    
     const topicInput = document.getElementById('new-topic');
     const topic = topicInput.value.trim();
     if (topic && !topicsList.includes(topic)) {
@@ -38,22 +73,31 @@ function addTopic() {
         const questions = [];
         const answers = [];
         for (let i = 1; i <= 5; i++) {
-            questions.push(`<input type="text" id="question-${topic}-${i}" name="question-${topic}-${i}" placeholder="Question ${i} for ${topic}"/><br>`);
-            answers.push(`<input type="text" id="answer-${topic}-${i}" name="answer-${topic}-${i}" placeholder="Answer ${i} for ${topic}"/><br><br>`);
+            const pointValue = i * 100;
+            questions.push(`<input type="text" id="question-${topic}-${i}" name="question-${topic}-${i}" placeholder="Question for ${pointValue} points"/>`);
+            answers.push(`<input type="text" id="answer-${topic}-${i}" name="answer-${topic}-${i}" placeholder="Answer for ${pointValue} points"/>`);
         }
 
         const questionsWithAnswers = [0, 1, 2, 3, 4].map((i) => {
-            return questions[i] + answers[i];
+            return `<div class="question-pair">${questions[i]}${answers[i]}</div>`;
         });
 
         const container = document.getElementById('question-container');
         container.insertAdjacentHTML('beforeend', `
             <div class="topic" id="topic-${topic}">
-                <h2>${topic}</h2>
+                <h2>📁 ${topic}</h2>
                 ${questionsWithAnswers.join('')}
-                <button type="button" onclick="removeTopic('${topic}')">Remove ${topic}</button>
-            </div><br>`);
+                <button type="button" onclick="removeTopic('${topic}')">🗑️ Remove ${topic}</button>
+            </div>`);
         topicInput.value = '';
+        
+        setTimeout(() => {
+            document.getElementById(`question-${topic}-1`).focus();
+        }, 100);
+    } else if (topicsList.includes(topic)) {
+        alert('This topic already exists. Please choose a different name.');
+    } else {
+        alert('Please enter a topic name.');
     }
 }
 
@@ -65,7 +109,12 @@ function removeTopic(topic) {
     const container = document.getElementById('question-container');
     const topicDiv = document.getElementById(`topic-${topic}`);
     if (topicDiv) {
-        container.removeChild(topicDiv);
+        topicDiv.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            if (topicDiv.parentNode) {
+                container.removeChild(topicDiv);
+            }
+        }, 300);
     }
 }
 
