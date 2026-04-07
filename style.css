@@ -1,0 +1,362 @@
+/* Quiz App Landing Page Styles - Mobile First Design */
+
+/* CSS Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main Content Container */
+.content {
+    max-width: 500px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Main Heading */
+h1 {
+    color: #2d3436;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Description Text */
+p {
+    color: #636e72;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button Container */
+a {
+    display: block;
+    margin-bottom: 15px;
+    text-decoration: none;
+}
+
+a:last-child {
+    margin-bottom: 0;
+}
+
+/* Button Styles */
+button {
+    width: 100%;
+    padding: 18px 25px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Primary Button (Generate Quiz) */
+a:first-of-type button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+a:first-of-type button:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
+/* Secondary Button (Play Demo) */
+a:last-of-type button {
+    background: linear-gradient(135deg, #00b894 0%, #00a085 100%);
+    color: white;
+    box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+}
+
+a:last-of-type button:hover {
+    background: linear-gradient(135deg, #00a085 0%, #009975 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 184, 148, 0.4);
+}
+
+/* Button Active State */
+button:active {
+    transform: translateY(-1px);
+}
+
+/* Button Click Animation */
+button.clicked {
+    animation: buttonClick 0.2s ease;
+}
+
+@keyframes buttonClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Shimmer Effect for Buttons */
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* Loading State */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+button:disabled:hover {
+    transform: none !important;
+}
+
+/* Focus States for Accessibility */
+button:focus {
+    outline: 3px solid #4facfe;
+    outline-offset: 3px;
+}
+
+/* Responsive Design - Tablet */
+@media (min-width: 768px) {
+    body {
+        padding: 30px;
+    }
+    
+    .content {
+        max-width: 600px;
+        padding: 50px 40px;
+        border-radius: 25px;
+    }
+    
+    h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    
+    p {
+        font-size: 18px;
+        margin-bottom: 40px;
+        max-width: 450px;
+    }
+    
+    button {
+        padding: 20px 30px;
+        font-size: 18px;
+        border-radius: 15px;
+    }
+    
+    a {
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsive Design - Desktop */
+@media (min-width: 1024px) {
+    body {
+        padding: 40px;
+    }
+    
+    .content {
+        max-width: 700px;
+        padding: 60px 50px;
+        border-radius: 30px;
+    }
+    
+    h1 {
+        font-size: 42px;
+        margin-bottom: 25px;
+    }
+    
+    p {
+        font-size: 20px;
+        margin-bottom: 50px;
+        max-width: 500px;
+    }
+    
+    button {
+        padding: 22px 35px;
+        font-size: 19px;
+        border-radius: 18px;
+    }
+    
+    a {
+        margin-bottom: 25px;
+    }
+    
+    /* Desktop: Side by side buttons */
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .button-container {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .button-container a {
+        flex: 1;
+        margin-bottom: 0;
+    }
+}
+
+/* Create button container wrapper for desktop layout */
+@media (min-width: 1024px) {
+    .content > a {
+        width: 100%;
+        max-width: 250px;
+        display: inline-block;
+        margin: 0 10px 25px 10px;
+    }
+    
+    .content > a:first-of-type {
+        margin-right: 10px;
+    }
+    
+    .content > a:last-of-type {
+        margin-left: 10px;
+        margin-bottom: 0;
+    }
+}
+
+/* Animation for page load */
+.content {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Floating Animation for Content */
+.content {
+    animation: slideUp 0.6s ease-out, float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .content {
+        background: white;
+        border: 3px solid #000;
+    }
+    
+    h1 {
+        background: none;
+        -webkit-text-fill-color: initial;
+        color: #000;
+    }
+    
+    button {
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .content {
+        animation: none;
+    }
+    
+    button::before {
+        display: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .content {
+        background: rgba(45, 52, 54, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    h1 {
+        color: #ddd;
+    }
+    
+    p {
+        color: #b2bec3;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .content {
+        box-shadow: none;
+        border: 1px solid #000;
+        background: white;
+    }
+    
+    button {
+        background: #f0f0f0 !important;
+        color: black !important;
+        border: 1px solid #000;
+    }
+}
